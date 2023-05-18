@@ -1,0 +1,31 @@
+/* Define the styles for your website */
+h1 {
+    text-align: center;
+  }
+  
+  input {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+    padding: 10px;
+  }
+  
+  button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+  }
+  
+  /* #transcriptionArea {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    min-height: 100px;
+  } */
+
+  canvas {
+    display: block;
+    margin: 20px auto;
+    border: 1px solid black;
+  }
+  
