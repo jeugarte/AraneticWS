@@ -9,6 +9,11 @@ h1 {
     width: 300px;
     padding: 10px;
   }
+
+  #inputText {
+    display: block;
+    margin: 0 auto;
+  }
   
   button {
     display: block;
@@ -22,10 +27,21 @@ h1 {
     border: 1px solid #ccc;
     min-height: 100px;
   } */
+  /* body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+   
+  */
+
 
   canvas {
     display: block;
     margin: 20px auto;
     border: 1px solid black;
+    width: 800px;
+    height: 600px;
   }
   

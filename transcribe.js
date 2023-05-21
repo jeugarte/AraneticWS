@@ -1,42 +1,161 @@
 function transcribe() {
-    console.log("dog1");
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext("2d");
-    var inputText = document.getElementById("inputText").value;
+  var canvas = document.getElementById("canvas");
+  var context = canvas.getContext("2d");
 
-    var x = 50;
-    var y = canvas.height / 2;
-    var syllableSpacing = 50; // Adjust as needed
-    var wordSpacing = 100;
-    console.log("dog2");
-    for (var i = 0; i < inputText.length; i += 2) {
-        var syllable = inputText.substr(i, 2);
+  var inputText = document.getElementById("inputText").value.trim();
+  var words = inputText.split(" ");
 
-        if (syllable.substr(0,1) === " ") {
-          x += wordSpacing;
-          i --;
-          continue;
+  var x = 50;
+  var y = 50;
+  var wordSpacing = 75; // Adjust as needed
+  var syllableSpacing = 50; // Adjust as needed
+  var vowels = new Set(["a", "e", "i", "o", "u"]);
+  var lineWidth = canvas.width - 100; // Maximum line width
+
+
+
+  for (var i = 0; i < words.length; i++) {
+    var word = words[i];
+    console.log(word);
+
+    var num_syllables = 0
+    for (var j = 0; j < word.length; j+=2) {
+      var has_sh = false;
+      var has_sh_vowel = false;
+      var has_vowel = false;
+      var syllable_string = word.substr(j, 2);
+      if (syllable_string === "sh") {
+        syllable_string = word.substr(j, 3);
+        has_sh = true;
+        if (vowels.has(word.substr(j+3, 1))) {
+          has_sh_vowel = true;
         }
-
-        if (syllable === "sh") {
-          syllable = inputText.substr(i, 3);
-          i++;
+      }
+      else if(vowels.has(word.substr(j+2, 1))) {
+        has_vowel = true;
+      }
+      num_syllables += 1;
+      if (has_sh) {
+        j++;
+        if (has_sh_vowel) {
+          j++;
         }
-
-
-        var shapes = syllableMapping[syllable];
-        console.log("dog3");
-
-        console.log(shapes.length)
-        for (var j = 0; j < shapes.length; j++) {
-            var shape = shapes[j];
-            console.log("dog4");
-            drawCharacter(context, x, y, shape.shape, shape);
-
-            //x += shape.shape === "circle" ? shape.radius * 2 : shape.length;
-        }
-        x += syllableSpacing;
+      }
+      else if (has_vowel) {
+        j++;
+      }
+      
     }
+    console.log(num_syllables);
+
+    var rowSize = Math.ceil(num_syllables / 2);
+
+    var counter = 0;
+    for (var j = 0; j < word.length; j+=2) {
+      var has_sh = false;
+      var has_sh_vowel = false;
+      var has_vowel = false;
+      var syllable_string = word.substr(j, 2);
+      if (syllable_string === "sh") {
+        syllable_string = word.substr(j, 3);
+        has_sh = true;
+        if(vowels.has(word.substr(j+3, 1))) {
+          has_sh_vowel = true;
+        }
+      }
+      else if(vowels.has(word.substr(j+2, 1))) {
+        has_vowel = true;
+      }
+      var shapes = syllableMapping[syllable_string];
+
+
+      var xPos = x + (counter % rowSize) * syllableSpacing;
+      var yPos = y + (counter < rowSize ? -1 : 1) * Math.floor(counter / rowSize) * syllableSpacing;
+
+      for (var k = 0; k < shapes.length; k++) {
+        var shape = shapes[k];
+
+        drawCharacter(context, xPos, yPos, shape.shape, shape);
+
+        //xPos += shape.shape === "circle" ? shape.radius * 2 : shape.length;
+      }
+
+      if (has_sh) {
+        if (has_sh_vowel) {
+          var vowel = word.substr(j+3, 1);
+          var shapes = Diphthong[vowel];
+          for (var k = 0; k < shapes.length; k++) {
+            var shape = shapes[k];
+            drawCharacter(context, xPos, yPos, shape.shape, shape);
+          }
+          j++;
+        }
+        j++;
+      }
+      else if (has_vowel) {
+        var vowel = word.substr(j+2, 1);
+        var shapes = Diphthong[vowel];
+        for (var k = 0; k < shapes.length; k++) {
+          var shape = shapes[k];
+          drawCharacter(context, xPos, yPos, shape.shape, shape);
+        }
+        if (word.substr(j+1, 1) === "a") {
+          var shapes = Diphthong["a"];
+          for (var k = 0; k < shapes.length; k++) {
+            var shape = shapes[k];
+            drawCharacter(context, xPos, yPos, shape.shape, shape);
+          }
+        }
+        j++;
+      }
+
+
+      xPos += syllableSpacing;
+      counter += 1;
+
+      
+    }
+
+    x = xPos + wordSpacing;
+  }
+    // console.log("dog1");
+    // var canvas = document.getElementById("canvas");
+    // var context = canvas.getContext("2d");
+    // var inputText = document.getElementById("inputText").value;
+
+    // var x = 50;
+    // var y = canvas.height / 2;
+    // var syllableSpacing = 50; // Adjust as needed
+    // var wordSpacing = 100;
+    // console.log("dog2");
+    // for (var i = 0; i < inputText.length; i += 2) {
+    //     var syllable = inputText.substr(i, 2);
+
+    //     if (syllable.substr(0,1) === " ") {
+    //       x += wordSpacing;
+    //       i --;
+    //       continue;
+    //     }
+
+    //     if (syllable === "sh") {
+    //       syllable = inputText.substr(i, 3);
+    //       i++;
+    //     }
+
+
+    //     var shapes = syllableMapping[syllable];
+    //     console.log("dog3");
+
+    //     console.log(shapes.length)
+    //     for (var j = 0; j < shapes.length; j++) {
+    //         var shape = shapes[j];
+    //         console.log("dog4");
+    //         drawCharacter(context, x, y, shape.shape, shape);
+
+    //         //x += shape.shape === "circle" ? shape.radius * 2 : shape.length;
+    //     }
+    //     x += syllableSpacing;
+    // }
 }
 
 function drawCharacter(context, x, y, shape, options) {
