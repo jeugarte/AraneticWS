@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Transcription Website</title>
+  <title>Arabela Writing System Translator</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+  <style>
+    
+    body {
+      background-color: rgba(238, 237, 243, 0.3);
+      background-image: linear-gradient(135deg, rgba(68, 76, 247, 0.3) 25%, transparent 25%), linear-gradient(225deg, rgba(68, 76, 247, 0.3) 25%, transparent 25%), linear-gradient(45deg, rgba(68, 76, 247, 0.3) 25%, transparent 25%), linear-gradient(315deg, rgba(68, 76, 247, 0.3) 25%, rgba(238, 237, 243, 0.3) 25%);
+      background-position: 22px 0, 22px 0, 0 0, 0 0;
+      background-size: 44px 44px;
+      background-repeat: repeat;
+    }
+  </style>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>Transcription Website</h1>
-  <textarea id="inputText" placeholder="Enter a string"></textarea>
-  <button onclick="transcribe()">Transcribe</button>
+  <h1>Arabela Writing System Translator</h1>
+  <textarea id="inputText" placeholder="Enter Arabela in the Roman Alphabet"></textarea>
+  <button id="transcribeButton" class="animated-button" onclick="transcribe()">Transcribe</button>
   <div id="transcriptionArea"></div>
   <canvas id="canvas" width="800" height="600"></canvas>
   

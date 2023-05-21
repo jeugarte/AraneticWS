@@ -50,6 +50,12 @@ function transcribe() {
 
     var rowSize = Math.ceil(num_syllables / 2);
 
+    if (x + (Math.ceil(num_syllables/2) * 40) > lineWidth) {
+      // Move to the next line
+      x = 50;
+      y += 150;
+    }
+
     var counter = 0;
     for (var j = 0; j < word.length; j+=2) {
       var has_sh = false;
@@ -68,6 +74,8 @@ function transcribe() {
       }
       var shapes = syllableMapping[syllable_string];
 
+      
+
 
       var xPos = x + (counter % rowSize) * syllableSpacing;
       var yPos = y + (counter < rowSize ? -1 : 1) * Math.floor(counter / rowSize) * syllableSpacing;
@@ -78,6 +86,7 @@ function transcribe() {
         drawCharacter(context, xPos, yPos, shape.shape, shape);
 
         //xPos += shape.shape === "circle" ? shape.radius * 2 : shape.length;
+        
       }
 
       if (has_sh) {
@@ -109,7 +118,7 @@ function transcribe() {
         j++;
       }
 
-
+      
       xPos += syllableSpacing;
       counter += 1;
 
@@ -156,6 +165,10 @@ function transcribe() {
     //     }
     //     x += syllableSpacing;
     // }
+    var button = document.getElementById("transcribeButton");
+    button.disabled = true;
+    button.style.backgroundColor = "green";
+    button.textContent = "Transcribed!";
 }
 
 function drawCharacter(context, x, y, shape, options) {
